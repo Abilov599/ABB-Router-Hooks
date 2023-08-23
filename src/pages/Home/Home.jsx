@@ -3,7 +3,6 @@ import styles from "./Home.module.scss";
 import { Card } from "../../components";
 import { useOutletContext } from "react-router-dom";
 
-// { favorites, cart, setToLocalStorage }
 function Home() {
   const [favorites, cart, setToLocalStorage] = useOutletContext();
   const [data, setData] = useState([]);
