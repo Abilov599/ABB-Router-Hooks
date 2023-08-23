@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import PropTypes from "prop-types";
 import styles from "./Home.module.scss";
 import { Card } from "../../components";
 import { useOutletContext } from "react-router-dom";
@@ -55,11 +54,5 @@ function Home() {
     </main>
   );
 }
-
-Home.propTypes = {
-  favorites: PropTypes.array.isRequired,
-  cart: PropTypes.array.isRequired,
-  setToLocalStorage: PropTypes.func.isRequired,
-};
 
 export { Home };
