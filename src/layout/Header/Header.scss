@@ -1,0 +1,61 @@
+.header {
+  background-color: #333;
+  color: #fff;
+  padding: 10px 20px;
+
+  .wrapper {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    .siteLink {
+      text-decoration: none;
+
+      color: #fff;
+
+      .siteName {
+        margin: 0;
+        font-size: 24px;
+      }
+    }
+
+    .nav {
+      .list {
+        display: flex;
+        gap: 10px;
+        .listItem {
+          text-decoration: none;
+          color: #fff;
+          font-size: 16px;
+          .link {
+            position: relative;
+            display: block;
+            color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            text-decoration: none;
+            &.active {
+              &::after {
+                content: "";
+                display: block;
+                width: 100%;
+                height: 2px;
+                background-color: #fff;
+              }
+            }
+            .count {
+              position: absolute;
+              top: 0;
+              background-color: red;
+              color: white;
+              border-radius: 50%;
+              padding: 0.2em 0.4em;
+              font-size: 0.7em;
+              margin-bottom: 10px;
+            }
+          }
+        }
+      }
+    }
+  }
+}

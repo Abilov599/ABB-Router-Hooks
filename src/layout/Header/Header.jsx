@@ -1,23 +1,35 @@
 import PropTypes from "prop-types";
-import styles from "./Header.module.scss";
-import { Link } from "react-router-dom";
+import "./Header.scss";
+import { Link, NavLink } from "react-router-dom";
 
 function Header({ favorites, cart }) {
   return (
-    <header className={styles.header}>
+    <header className={"header"}>
       <div className="container">
-        <div className={styles.wrapper}>
-          <Link to={"/"} className={styles.siteLink}>
-            <h1 className={styles.siteName}>Store</h1>
+        <div className={"wrapper"}>
+          <Link to={"/"} className={"siteLink"}>
+            <h1 className={"siteName"}>Store</h1>
           </Link>
-          <div className={styles.icons}>
-            <div className={styles.icon}>
-              <span>Favorites: {favorites.length}</span>
-            </div>
-            <div className={styles.icon}>
-              <span>Cart: {cart.length}</span>
-            </div>
-          </div>
+          <nav className={"nav"}>
+            <ul className={"list"}>
+              <li className={"listItem"}>
+                <NavLink className={"link"} to={"/"}>
+                  Home
+                </NavLink>
+              </li>
+              <li className={"listItem"}>
+                <NavLink className={"link"} to={"favorites"}>
+                  Favorites
+                  <sup className={"count"}>{favorites.length}</sup>
+                </NavLink>
+              </li>
+              <li className={"listItem"}>
+                <NavLink className={"link"} to={"cart"}>
+                  Cart<sup className={"count"}>{cart.length}</sup>
+                </NavLink>
+              </li>
+            </ul>
+          </nav>
         </div>
       </div>
     </header>
