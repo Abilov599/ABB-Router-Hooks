@@ -1,14 +1,7 @@
-import React, { Component } from "react";
-import { Layout } from "./layout";
+import { Routing } from "./routes";
 
-class App extends Component {
-  render() {
-    return (
-      <>
-        <Layout />
-      </>
-    );
-  }
-}
+const App = () => {
+  return <Routing />;
+};
 
 export default App;
