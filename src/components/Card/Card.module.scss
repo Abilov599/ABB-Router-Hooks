@@ -1,0 +1,39 @@
+/* ProductCard.module.scss */
+
+.productCard {
+  border: 1px solid #ddd;
+  max-width: 250px;
+  width: 100%;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.image {
+  max-width: 100%;
+  height: auto;
+}
+
+.name {
+  font-size: 1.2rem;
+  margin: 10px 0;
+}
+
+.price {
+  font-size: 1rem;
+  color: #555;
+}
+
+.sku {
+  font-size: 0.9rem;
+  color: #777;
+}
+
+.buttons {
+  display: flex;
+  gap: 10px;
+}
