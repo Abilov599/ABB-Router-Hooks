@@ -1,12 +1,15 @@
 import PropTypes from "prop-types";
 import styles from "./Header.module.scss";
+import { Link } from "react-router-dom";
 
 function Header({ favorites, cart }) {
   return (
     <header className={styles.header}>
       <div className="container">
         <div className={styles.wrapper}>
-          <h1 className={styles.siteName}>Store</h1>
+          <Link to={"/"} className={styles.siteLink}>
+            <h1 className={styles.siteName}>Store</h1>
+          </Link>
           <div className={styles.icons}>
             <div className={styles.icon}>
               <span>Favorites: {favorites.length}</span>
