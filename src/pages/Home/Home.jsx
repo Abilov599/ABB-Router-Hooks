@@ -1,73 +1,62 @@
-import React, { Component } from "react";
-import { Card } from "../../components";
+import { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import styles from "./Home.module.scss";
+import { Card } from "../../components";
 
-class Home extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      data: [],
-      isLoading: true,
-      error: null,
-    };
-  }
+function Home({ favorites, cart, setToLocalStorage }) {
+  const [data, setData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  componentDidMount() {
+  useEffect(() => {
     fetch("../../data.json")
       .then((response) => response.json())
       .then((data) => {
-        this.setState({
-          data: data,
-          isLoading: false,
-        });
+        setData(data.products);
+        setIsLoading(false);
       })
       .catch((error) => {
-        this.setState({
-          error: error,
-          isLoading: false,
-        });
+        setError(error);
+        setIsLoading(false);
       });
+  }, []);
+
+  if (error) {
+    return <p>Error: {error.message}</p>;
   }
 
-  render() {
-    const { data, isLoading, error } = this.state;
-
-    const { favorites, cart, setToLocalStorage } = this.props;
-
-    const { products } = data;
-
-    if (error) {
-      return <p>Error: {error.message}</p>;
-    }
-    return (
-      <main className={styles.home}>
-        <div className="container">
-          {isLoading ? (
-            <p className={styles.text}>Loading...</p>
-          ) : (
-            <div className={styles.row}>
-              {products.map((item) => {
-                return (
-                  <Card
-                    key={item.id}
-                    item={item}
-                    name={item.name}
-                    price={item.price}
-                    imageURL={item.imageURL}
-                    sku={item.sku}
-                    backgroundColor={item.backgroundColor}
-                    favorites={favorites}
-                    cart={cart}
-                    setToLocalStorage={setToLocalStorage}
-                  />
-                );
-              })}
-            </div>
-          )}
-        </div>
-      </main>
-    );
-  }
+  return (
+    <main className={styles.home}>
+      <div className="container">
+        {isLoading ? (
+          <p className={styles.text}>Loading...</p>
+        ) : (
+          <div className={styles.row}>
+            {data.map((item) => (
+              <Card
+                key={item.id}
+                item={item}
+                name={item.name}
+                price={item.price}
+                imageURL={item.imageURL}
+                sku={item.sku}
+                backgroundColor={item.backgroundColor}
+                favorites={favorites}
+                cart={cart}
+                setToLocalStorage={setToLocalStorage}
+              />
+            ))}
+          </div>
+        )}
+      </div>
+    </main>
+  );
 }
+
+Home.propTypes = {
+  favorites: PropTypes.array.isRequired,
+  cart: PropTypes.array.isRequired,
+  setToLocalStorage: PropTypes.func.isRequired,
+};
 
 export { Home };

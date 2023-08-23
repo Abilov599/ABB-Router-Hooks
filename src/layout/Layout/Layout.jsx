@@ -1,23 +1,22 @@
-import React, { Component } from "react";
+import { useState, useEffect } from "react";
 import { Header, Footer } from "..";
 import { Home } from "../../pages";
 
-class Layout extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      favorites: this.getFromLocalStorage("favorites"),
-      cart: this.getFromLocalStorage("cart"),
-    };
-  }
+function Layout() {
+  const [favorites, setFavorites] = useState([]);
+  const [cart, setCart] = useState([]);
 
-  getFromLocalStorage = (itemsName) => {
-    const items = JSON.parse(localStorage.getItem(itemsName)) ?? [];
-    return items;
-  };
+  useEffect(() => {
+    const favoritesFromStorage =
+      JSON.parse(localStorage.getItem("favorites")) || [];
+    setFavorites(favoritesFromStorage);
 
-  setToLocalStorage = (product, itemsName) => {
-    const items = this.getFromLocalStorage(itemsName);
+    const cartFromStorage = JSON.parse(localStorage.getItem("cart")) || [];
+    setCart(cartFromStorage);
+  }, []);
+
+  const setToLocalStorage = (product, itemsName) => {
+    const items = JSON.parse(localStorage.getItem(itemsName)) || [];
 
     const existingIndex = items.findIndex((item) => item.id === product.id);
 
@@ -31,28 +30,24 @@ class Layout extends Component {
 
     localStorage.setItem(itemsName, JSON.stringify(items));
 
-    // Update the state after modifying local storage
     if (itemsName === "favorites") {
-      this.setState({ favorites: items });
+      setFavorites(items);
     } else if (itemsName === "cart") {
-      this.setState({ cart: items });
+      setCart(items);
     }
   };
 
-  render() {
-    const { favorites, cart } = this.state;
-    return (
-      <>
-        <Header favorites={favorites} cart={cart} />
-        <Home
-          favorites={favorites}
-          cart={cart}
-          setToLocalStorage={this.setToLocalStorage}
-        />
-        <Footer />
-      </>
-    );
-  }
+  return (
+    <>
+      <Header favorites={favorites} cart={cart} />
+      <Home
+        favorites={favorites}
+        cart={cart}
+        setToLocalStorage={setToLocalStorage}
+      />
+      <Footer />
+    </>
+  );
 }
 
 export { Layout };
