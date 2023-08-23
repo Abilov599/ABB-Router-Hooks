@@ -2,8 +2,11 @@ import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import styles from "./Home.module.scss";
 import { Card } from "../../components";
+import { useOutletContext } from "react-router-dom";
 
-function Home({ favorites, cart, setToLocalStorage }) {
+// { favorites, cart, setToLocalStorage }
+function Home() {
+  const [favorites, cart, setToLocalStorage] = useOutletContext();
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);

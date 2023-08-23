@@ -1,22 +1,20 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Header, Footer } from "..";
-import { Home } from "../../pages";
+import { Outlet } from "react-router-dom";
 
 function Layout() {
-  const [favorites, setFavorites] = useState([]);
-  const [cart, setCart] = useState([]);
+  const [favorites, setFavorites] = useState(
+    getFromLocalStorage("favorites") || []
+  );
+  const [cart, setCart] = useState(getFromLocalStorage("cart") || []);
 
-  useEffect(() => {
-    const favoritesFromStorage =
-      JSON.parse(localStorage.getItem("favorites")) || [];
-    setFavorites(favoritesFromStorage);
+  function getFromLocalStorage(itemsName) {
+    const items = JSON.parse(localStorage.getItem(itemsName)) ?? [];
+    return items;
+  }
 
-    const cartFromStorage = JSON.parse(localStorage.getItem("cart")) || [];
-    setCart(cartFromStorage);
-  }, []);
-
-  const setToLocalStorage = (product, itemsName) => {
-    const items = JSON.parse(localStorage.getItem(itemsName)) || [];
+  function setToLocalStorage(product, itemsName) {
+    const items = getFromLocalStorage(itemsName);
 
     const existingIndex = items.findIndex((item) => item.id === product.id);
 
@@ -35,16 +33,12 @@ function Layout() {
     } else if (itemsName === "cart") {
       setCart(items);
     }
-  };
+  }
 
   return (
     <>
       <Header favorites={favorites} cart={cart} />
-      <Home
-        favorites={favorites}
-        cart={cart}
-        setToLocalStorage={setToLocalStorage}
-      />
+      <Outlet context={[favorites, cart, setToLocalStorage]} />
       <Footer />
     </>
   );
