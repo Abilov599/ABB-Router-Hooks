@@ -18,7 +18,7 @@ function Layout() {
 
     const existingIndex = items.findIndex((item) => item.id === product.id);
 
-    if (existingIndex !== -1) {
+    if (existingIndex !== -1 && itemsName === "favorites") {
       // Remove the product
       items.splice(existingIndex, 1);
     } else {
