@@ -1,10 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import { useOutletContext } from "react-router-dom";
-import { Button, Card } from "../../components";
+import { Button, Card, Modal } from "../../components";
 import styles from "./Favorites.module.scss";
 
 const Favorites = () => {
   const [favorites, cart, setToLocalStorage] = useOutletContext();
+  const [showModal, setShowModal] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
+
+  const toggleModal = (item) => {
+    setShowModal((prevShowModal) => !prevShowModal);
+    setSelectedItem(item);
+  };
+
+  const addToCartAndCloseModal = (item) => {
+    setToLocalStorage(item, "cart");
+    setShowModal(false);
+    setSelectedItem(null);
+  };
+
   return (
     <main className={styles.favorites}>
       <section>
@@ -36,12 +50,27 @@ const Favorites = () => {
                           onClick={() => setToLocalStorage(item, "favorites")}
                         />
                         <Button
-                          text={"Remove from cart"}
+                          text={"Add to cart"}
                           bgColor={"#4285F4"}
-                          onClick={() => alert("remove")} // Open modal
+                          onClick={() => toggleModal(item)} // Open modal
                         />
                       </>
                     </Card>
+                    <Modal
+                      text={`This item will be added to your cart`}
+                      header={"Are you sure?"}
+                      closeBtn={true}
+                      isOpen={showModal} // Pass the modal visibility as prop
+                      onClick={() => toggleModal(null)} // Close modal
+                    >
+                      <Button
+                        bgColor="#4285F4"
+                        text={"Add to cart"}
+                        onClick={() => {
+                          addToCartAndCloseModal(selectedItem, "cart");
+                        }}
+                      />
+                    </Modal>
                   </React.Fragment>
                 );
               })
