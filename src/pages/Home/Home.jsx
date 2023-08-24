@@ -1,28 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import useFetch from "../../hooks/useFetch";
 import { useOutletContext } from "react-router-dom";
 import { Button, Card, Modal } from "../../components";
 import styles from "./Home.module.scss";
 
 function Home() {
+  const { data, loading, error } = useFetch("../../data.json");
+  const { products } = data;
   const [favorites, cart, setToLocalStorage] = useOutletContext();
-  const [data, setData] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
-
-  useEffect(() => {
-    fetch("../../data.json")
-      .then((response) => response.json())
-      .then((data) => {
-        setData(data.products);
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        setError(error);
-        setIsLoading(false);
-      });
-  }, []);
 
   const toggleModal = (item) => {
     setShowModal((prevShowModal) => !prevShowModal);
@@ -42,11 +29,11 @@ function Home() {
   return (
     <main className={styles.home}>
       <div className="container">
-        {isLoading ? (
+        {loading ? (
           <p className={styles.text}>Loading...</p>
         ) : (
           <div className={styles.row}>
-            {data.map((item) => {
+            {products.map((item) => {
               const checkAddedToFavorites = () => {
                 return favorites.some((favItem) => favItem.id === item.id)
                   ? "Remove from favorites"
