@@ -4,12 +4,13 @@ import styles from "./Favorites.module.scss";
 
 const Favorites = () => {
   const [favorites, cart, setToLocalStorage] = useOutletContext();
+  console.log(favorites);
   return (
     <main className={styles.favorites}>
       <section>
         <div className="container">
           <div className={styles.row}>
-            {!cart.length ? (
+            {!favorites.length ? (
               <p className={styles.text}>No items in favorites</p>
             ) : (
               favorites.map((item) => (
