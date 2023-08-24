@@ -25,7 +25,7 @@ const Favorites = () => {
         <div className="container">
           <div className={styles.row}>
             {!favorites.length ? (
-              <p className={styles.text}>No items in cart</p>
+              <p className={styles.text}>No items in favorites</p>
             ) : (
               favorites.map((item, i) => {
                 const checkAddedToFavorites = () => {
