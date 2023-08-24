@@ -13,6 +13,16 @@ function Layout() {
     return items;
   }
 
+  function removeFromLocalStorage(index) {
+    const items = getFromLocalStorage("cart");
+
+    items.splice(index, 1);
+
+    localStorage.setItem("cart", JSON.stringify(items));
+
+    setCart(items);
+  }
+
   function setToLocalStorage(product, itemsName) {
     const items = getFromLocalStorage(itemsName);
 
@@ -38,7 +48,9 @@ function Layout() {
   return (
     <>
       <Header favorites={favorites} cart={cart} />
-      <Outlet context={[favorites, cart, setToLocalStorage]} />
+      <Outlet
+        context={[favorites, cart, setToLocalStorage, removeFromLocalStorage]}
+      />
       <Footer />
     </>
   );

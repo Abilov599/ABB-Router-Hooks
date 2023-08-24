@@ -4,7 +4,13 @@ import styles from "./Cart.module.scss";
 import React from "react";
 
 const Cart = () => {
-  const [favorites, cart, setToLocalStorage] = useOutletContext();
+  const [favorites, cart, setToLocalStorage, removeFromLocalStorage] =
+    useOutletContext();
+
+  const removeFromCart = (index) => {
+    removeFromLocalStorage(index);
+  };
+
   return (
     <main className={styles.cart}>
       <section>
@@ -38,7 +44,7 @@ const Cart = () => {
                         <Button
                           text={"Remove from cart"}
                           bgColor={"#4285F4"}
-                          onClick={() => alert("remove")} // Open modal
+                          onClick={() => removeFromCart(i)} // Remove from cart
                         />
                       </>
                     </Card>
