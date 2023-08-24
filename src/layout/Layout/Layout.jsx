@@ -1,56 +1,36 @@
 import { useState } from "react";
 import { Header, Footer } from "..";
 import { Outlet } from "react-router-dom";
+import {
+  getFromLocalStorage,
+  setToLocalStorage,
+  removeFromLocalStorage,
+} from "../../utils/localStorage";
 
 function Layout() {
+  const handleRemoveFromCart = (index) => {
+    removeFromLocalStorage(index, "cart", setCart);
+  };
+
+  const handleAdd = (product, itemsName) => {
+    let setter;
+    if (itemsName === "cart") {
+      setter = setCart;
+    } else if (itemsName === "favorites") {
+      setter = setFavorites;
+    }
+    setToLocalStorage(product, itemsName, setter);
+  };
+
   const [favorites, setFavorites] = useState(
     getFromLocalStorage("favorites") || []
   );
   const [cart, setCart] = useState(getFromLocalStorage("cart") || []);
 
-  function getFromLocalStorage(itemsName) {
-    const items = JSON.parse(localStorage.getItem(itemsName)) ?? [];
-    return items;
-  }
-
-  function removeFromLocalStorage(index) {
-    const items = getFromLocalStorage("cart");
-
-    items.splice(index, 1);
-
-    localStorage.setItem("cart", JSON.stringify(items));
-
-    setCart(items);
-  }
-
-  function setToLocalStorage(product, itemsName) {
-    const items = getFromLocalStorage(itemsName);
-
-    const existingIndex = items.findIndex((item) => item.id === product.id);
-
-    if (existingIndex !== -1 && itemsName === "favorites") {
-      // Remove the product
-      items.splice(existingIndex, 1);
-    } else {
-      // Add the product
-      items.push(product);
-    }
-
-    localStorage.setItem(itemsName, JSON.stringify(items));
-
-    if (itemsName === "favorites") {
-      setFavorites(items);
-    } else if (itemsName === "cart") {
-      setCart(items);
-    }
-  }
-
   return (
     <>
       <Header favorites={favorites} cart={cart} />
-      <Outlet
-        context={[favorites, cart, setToLocalStorage, removeFromLocalStorage]}
-      />
+      <Outlet context={[favorites, cart, handleAdd, handleRemoveFromCart]} />
       <Footer />
     </>
   );
